@@ -5,7 +5,9 @@ double precision, dimension(3) :: r
 
 pot = 0.d0
 
+!$OMP PARALLEL
 do i=1,Natoms-1
+  !$OMP DO REDUCTION (+:pot)
   do j=i+1, Natoms
     r = RR(j,:) - RR(i,:)
     r2 = dot_product(r, r)
@@ -14,9 +16,11 @@ do i=1,Natoms-1
 
     pot = pot + 4.d0*(r6i*r6i - r6i)
   enddo
+  !$OMP END DO
 enddo
+!$OMP END PARALLEL
 
-write(*,'("Binding Energy = ",f25.10)') pot
+write(*,'("Binding Energy = ",f30.10)') pot
 
 
 

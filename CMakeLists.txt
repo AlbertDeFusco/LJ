@@ -36,6 +36,10 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 message(STATUS "The build type is ${CMAKE_BUILD_TYPE}")
 
+find_package(OpenMP)
+if (OPENMP_FOUND)
+    set (CMAKE_Fortran_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_Fortran_FLAGS}")
+endif()
 
 
 # files with a capital F are automatically run through the Preprocesor
